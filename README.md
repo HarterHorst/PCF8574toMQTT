@@ -64,6 +64,6 @@ L L L H L L L L
 ```
 ## to do 
 
-[ ] - Add feature to send a message wjem pin goes low
-[ ] - Daemonize standard mode 
-[ ] - Add syslog features inm daemon mode
+- [ ] Add feature to send a message wjem pin goes low
+- [ ] Daemonize standard mode 
+- [ ] Add syslog features inm daemon mode
