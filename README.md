@@ -22,7 +22,7 @@ make
 
 For the modevisual the parameter -m is required. In addition the I2C Device and the address has to be provided.
 
-The program will connect to the I2C Bus and read the value from the given address register. If a pin goes high, a MQTT Message will be sent to the broker in a JSON string format. MQTT Message: {"Pin":"1","Status":"H"}. The program currently does not support the transmission of MQTT messages if a pin goes low. 
+The program connects to the I2C Bus and reads the value from the given address register. If a pin goes high, a MQTT Message will be sent to the broker in a JSON string format. MQTT Message: {"Pin":"1","Status":"H"}. The program currently does not support the transmission of MQTT messages if a pin goes low, respectivly going back to low.
 
 ```
 ./PCF8574toMQTT -b /dev/i2c-1 -a 0x38 -h mqtt.test.com -t test/test -v
