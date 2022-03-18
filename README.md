@@ -19,7 +19,7 @@ Usage:
 
 For the modevisual the parameter -m is required. In addition the I2C Device and the address has to be provided.
 
-./PCF8574tomqtt -m -b /dev/i2c-1 -a 0x38
+./PCF8574toMQTT -m -b /dev/i2c-1 -a 0x38
 
 The program will connect to the I2C Bus and read the value from the given address register.
 

@@ -99,7 +99,7 @@ int main (int argc, char **argv) {
         exit(1);
     }
 
-    while ((c = getopt_long(argc, argv, "b:a:h:t:vs", long_options, &option_index)) != -1) {
+    while ((c = getopt_long(argc, argv, "b:a:h:t:vm", long_options, &option_index)) != -1) {
         int this_option_optind = optind ? optind : 1;
         switch (c) {
         case 'b':
