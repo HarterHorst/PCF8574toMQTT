@@ -10,7 +10,7 @@ This PCF8574toMQTT Gatway is a small c program that can be used for two purposes
 1. Check if the Module works and display the status of the PINs via the console. => ModeVisual
 2. Get the status of the PIN of the module an publish a MQTT Message to the MQTT broker if a PIN goes High. => Normal mode
 
-##Installation:
+## Installation:
 
 ```
 apt install build-essential mosquitto-dev
@@ -18,7 +18,7 @@ clone the source code
 make
 ```
 
-##Usage: Normal MQTT Mode
+## Usage: Normal MQTT Mode
 
 For the modevisual the parameter -m is required. In addition the I2C Device and the address has to be provided.
 
@@ -41,7 +41,7 @@ Parameter
 MQTT Message: {"Pin":"1","Status":"H"}
 ```
 
-##Usage: Visual Mode
+## Usage: Visual Mode
 
 The parameter -m (ModeVisual) configures the program to output the status of the Pins.
 
