@@ -25,7 +25,7 @@ int isPowerOfTwo(unsigned n)
 {
     return n && (!(n & (n - 1)));
 }
-
+ 
 int GetPinNumber(unsigned n)
 {
     if (!isPowerOfTwo(n))
@@ -33,10 +33,10 @@ int GetPinNumber(unsigned n)
     unsigned i = 1, pos = 1;
     while (!(i & n)) {
         i = i << 1;
+        ++pos;
     }
     return pos;
 }
-
 int mqttsend (int pin, int status) {
     int rc;
     struct mosquitto *mosq = NULL;
@@ -81,7 +81,7 @@ int main (int argc, char **argv) {
     };
 
     int option_index = 0;
-    char string[15] = "L L L L L L L L";
+    char string[16] = "L L L L L L L L\0";
 
     //
     // Check commandline arguments
@@ -98,6 +98,8 @@ int main (int argc, char **argv) {
         printf ("  [--modevisual or -m] just show the status of the pins and do not send MQTT messages.\n\n");
         exit(1);
     }
+
+    printf ("PCF8577toMQTT Bridge\n\nParameter\n");
 
     while ((c = getopt_long(argc, argv, "b:a:h:t:vm", long_options, &option_index)) != -1) {
         int this_option_optind = optind ? optind : 1;
@@ -119,7 +121,7 @@ int main (int argc, char **argv) {
             mqtttopic = optarg;
             break;
         case 'v':
-            printf ("be verbose\n");
+            printf (" - verbose    : verbose\n");
             optverbose = true;
             break;
         case 'm':
@@ -159,9 +161,10 @@ int main (int argc, char **argv) {
         printf("Press CTRL-C to end program.\n\n");
         sleep(1);
 
-        printf ("_______________\n");
         printf ("1 2 3 4 5 6 7 8\n");
-        printf ("L L L L L L L L");
+        printf ("_______________\n");
+        printf ("L L L L L L L L\0");
+        printf("\e[?25l"); // disable to cursor to be printed out 
         fflush(stdout);
 
         while (1) {
@@ -182,7 +185,12 @@ int main (int argc, char **argv) {
                         }
                     }
                     printf ("\r%s",string);
+                    printf("\e[?25l"); // disable to cursor to be printed out 
+
                     fflush(stdout);
+                    printf("\e[?25h"); // enable cursor
+                    fflush(stdout);
+
                     data_old = data1;
                 }
             }
@@ -210,5 +218,6 @@ int main (int argc, char **argv) {
                 }
             }
         }
+
 exit (0);
 }
