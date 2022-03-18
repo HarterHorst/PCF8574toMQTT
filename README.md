@@ -66,4 +66,4 @@ L L L H L L L L
 
 - [ ] Add feature to send a message wjem pin goes low
 - [ ] Daemonize standard mode 
-- [ ] Add syslog features inm daemon mode
+- [ ] Add syslog features in daemon mode

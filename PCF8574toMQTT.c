@@ -1,11 +1,6 @@
-// PCFmqttbridge
+// PCF8574toMQTT
 // Version 0.9
 //
-// Licence information
-//
-// to do:
-// - implement function to transmit status going from high to low for pins
-// - 
 
 #include <mosquitto.h>
 #include <stdio.h>
