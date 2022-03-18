@@ -62,3 +62,8 @@ Press CTRL-C to end program.
 1 2 3 4 5 6 7 8
 L L L H L L L L
 ```
+## to do 
+
+[ ] - Add feature to send a message wjem pin goes low
+[ ] - Daemonize standard mode 
+[ ] - Add syslog features inm daemon mode
