@@ -42,7 +42,7 @@ Usage: Visual Mode
 
 The parameter -m (ModeVisual) configures the program to output the status of the Pins.
 
-./PCF8574toMQTT -b /dev/i2c-1 -a 0x38 -m
+```./PCF8574toMQTT -b /dev/i2c-1 -a 0x38 -m
 
 PCF8577toMQTT Bridge
 
@@ -57,3 +57,4 @@ Press CTRL-C to end program.
 
 1 2 3 4 5 6 7 8
 L L L H L L L L
+```
