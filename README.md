@@ -34,7 +34,7 @@ Parameter
  - mqtt topic : 'test/test'
  - verbose    : verbose
 
->> Send pin status via MQTT <<
+ Send pin status via MQTT
 
 MQTT Message: {"Pin":"1","Status":"H"}
 
@@ -50,11 +50,10 @@ Parameter
  - i2cbus     : '/dev/i2c-1'
  - address    : '0x38'
 
->> Show pin status <<
+ Show pin status 
 
 Showing status of input pins. L=Low  H=High:
 Press CTRL-C to end program.
 
 1 2 3 4 5 6 7 8
-_______________
 L L L H L L L L
