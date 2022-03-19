@@ -9,6 +9,7 @@
 #include <linux/i2c-dev.h>
 #include <sys/ioctl.h>
 #include <fcntl.h>
+#include <signal.h>
 #include <math.h>
 #include <unistd.h>
 #include <string.h>
@@ -16,13 +17,11 @@
 bool optverbose = false;
 char *mqtthost = 0, *mqtttopic = 0;
 
-int isPowerOfTwo(unsigned n)
-{
+int isPowerOfTwo(unsigned n) {
     return n && (!(n & (n - 1)));
 }
  
-int GetPinNumber(unsigned n)
-{
+int GetPinNumber(unsigned n) {
     if (!isPowerOfTwo(n))
         return -1;
     unsigned i = 1, pos = 1;
@@ -58,13 +57,17 @@ int mqttsend (int pin, int status) {
     return 0;
 }
 
-int main (int argc, char **argv) {
+void sig_handler (int signum) {
+    printf ("\nTerminating program...\n\n");
+    printf("\e[?25h"); // enable cursor
+    exit(0);
+}
 
+int main (int argc, char **argv) {
     bool optmodevisual = false;
     char *i2cbus = 0, *i2caddress = 0;
     int c;
     int lashighpin;
-
     static struct option long_options[] = {
         {"i2cbus",          required_argument, NULL, 'b'},
         {"i2caddress",      required_argument, NULL, 'a'},
@@ -77,6 +80,8 @@ int main (int argc, char **argv) {
 
     int option_index = 0;
     char string[16] = "L L L L L L L L\0";
+
+    signal(SIGINT,sig_handler); // Register signal handler
 
     //
     // Check commandline arguments
@@ -128,18 +133,15 @@ int main (int argc, char **argv) {
             printf ("?? getopt returned character code 0%o ??\n", c);
         }
     }
-
     //
     // Create I2C bus
     //
     int file;
-    if((file = open(i2cbus, O_RDWR)) < 0)
-    {
+    if((file = open(i2cbus, O_RDWR)) < 0) {
         printf("Error opening the I2C Bus. Please check device name.\n");
         exit(1);
     }
     int num = (int)strtol(i2caddress, NULL, 16);   
-
     ioctl(file, I2C_SLAVE, num);
 
     // Set all pins as INPUT(0xFF)
@@ -148,7 +150,6 @@ int main (int argc, char **argv) {
     write(file, config, 1);
 
     int data_old = 255;
-
     if (optmodevisual) {
         printf ("\n>> Show pin status <<\n\n");
 
@@ -180,12 +181,7 @@ int main (int argc, char **argv) {
                         }
                     }
                     printf ("\r%s",string);
-                    printf("\e[?25l"); // disable to cursor to be printed out 
-
                     fflush(stdout);
-                    printf("\e[?25h"); // enable cursor
-                    fflush(stdout);
-
                     data_old = data1;
                 }
             }
@@ -193,7 +189,6 @@ int main (int argc, char **argv) {
     }
     else {
         printf ("\n>> Send pin status via MQTT <<\n\n");
-
         while (1) {
             char data[1] = {0};
             if(read(file, data, 1) != 1) {
@@ -208,11 +203,10 @@ int main (int argc, char **argv) {
                     // printf ("Pin: %i is high.\n", pinhigh);
                     mqttsend(pinhigh,72);
                     sleep(1);
-                    }
-                lashighpin=pinhigh; // save current bit status 
                 }
+                lashighpin=pinhigh; // save current bit status 
             }
         }
-
+    }
 exit (0);
 }

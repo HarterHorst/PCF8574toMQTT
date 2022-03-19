@@ -10,6 +10,8 @@ This PCF8574toMQTT Gatway is a small c program that can be used for two purposes
 1. Check if the Module works and display the status of the PINs via the console. => ModeVisual
 2. Get the status of the PIN of the module an publish a MQTT Message to the MQTT broker if a PIN goes High. => Normal mode
 
+I'm aware of the fact, that the PCF8574 has a register that indicated chantes in the pin status, but this script supposed to be quick and dirty. Although I could not resist to have a proper SIGINT handler in place.
+
 ## Installation:
 
 ```
@@ -64,6 +66,7 @@ L L L H L L L L
 ```
 ## to do 
 
-- [ ] Add feature to send a message wjem pin goes low
-- [ ] Daemonize standard mode 
+- [x] Add proper SIGINT handling 
+- [ ] Add feature to send a message whem pin goes low
+- [ ] Daemonize standard mode
 - [ ] Add syslog features in daemon mode
