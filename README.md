@@ -68,6 +68,6 @@ L L L H L L L L
 
 - [x] Add proper SIGINT handling. Bring back the cursor.
 - [ ] Add feature to send a message when pin goes low
-- [ ] Daemonize standard mode
+- [x] Daemonize standard mode
 - [ ] Detect double click and send this information via MQTT
 - [ ] Add syslog features in daemon mode
