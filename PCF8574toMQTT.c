@@ -189,23 +189,33 @@ int main (int argc, char **argv) {
     }
     else {
         printf ("\n>> Send pin status via MQTT <<\n\n");
-        while (1) {
-            char data[1] = {0};
-            if(read(file, data, 1) != 1) {
-                printf("Error : Input/output Error \n");
-                exit (1);
-            }
-            else {
-                // Output to screen
-                int data1 = (data[0] ^ 0xFF); // invert bits
-                int pinhigh = GetPinNumber (data1); // get pin numnber from inverted bits
-                if (lashighpin!=pinhigh && pinhigh != -1) { 
-                    // printf ("Pin: %i is high.\n", pinhigh);
-                    mqttsend(pinhigh,72);
-                    sleep(1);
+        pid_t process_id = 0;
+        process_id = fork();
+        if (process_id < 0) {
+            printf ("Error starting daemon.\n");
+        } else if (process_id == 0) {
+            while (1) {
+                char data[1] = {0};
+                if(read(file, data, 1) != 1) {
+                    printf("Error : Input/output Error \n");
+                    // Add Syslog message here
+                    exit (1);
                 }
-                lashighpin=pinhigh; // save current bit status 
+                else {
+                    int data1 = (data[0] ^ 0xFF); // invert bits
+                    int pinhigh = GetPinNumber (data1); // get pin numnber from inverted bits
+                    if (lashighpin!=pinhigh && pinhigh != -1) { 
+                        // printf ("Pin: %i is high.\n", pinhigh);
+                        mqttsend(pinhigh,72);
+                        usleep(250); //sleep 250ms to avoid key bounce quick and dirty. 
+                    }
+                    lashighpin=pinhigh; // save current bit status 
+                }
             }
+        }
+       if (process_id > 0) {
+            printf ("Daemon started with PID: %d\n",process_id);
+            // Add Syslog Message here
         }
     }
 exit (0);
