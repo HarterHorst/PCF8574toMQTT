@@ -16,7 +16,7 @@ I'm aware of the fact, that the PCF8574 has a register that indicates changes of
 
 ```
 apt install build-essential mosquitto-dev
-clone the source code
+git clone <Repo URL>
 make
 ```
 
